@@ -1,27 +1,47 @@
-class Trainer():
-    def __init__(model, classifier, arch, epochs):
+import torch
+from torch import nn
+import logging
+import utils
+
+class Trainer:
+    def __init__(self, model, classifier, arch, dataloader, epochs, batch_size, optimizer, scheduler, logger=None, log_interval=50):
         self.model = model
         self.classifier = classifier
         self.arch = arch
-        self.dataloader = dataloader
+        self.train_loader = train_dataloader
+        self.valid_loader = valid_dataloader
+        self.test_loader = test_dataloader
         self.epochs = epochs
         self.batch_size = batch_size
+        self.optimizer = optimizer
+        self.scheduler = scheduler
+        self.logger = logger  # optional external logger (e.g., wandb.log)
+        self.log_interval = log_interval
 
-    def train(self, num_classes, optimizer, scheduler):
+    def _log(self, data: dict):
+        """Log helper. Uses external logger if provided; otherwise falls back to logging.info."""
+        if callable(self.logger):
+            try:
+                self.logger(data)
+                return
+            except Exception:
+                pass
+        logging.info(" ".join(f"{k}={v}" for k, v in data.items()))
+
+    def train(self):
         self.model.train()
         self.classifier.train()
         
-        total_loss = 0.0
-        total_samples = 0
-        total_correct = 0
-        all_outputs = []
-        all_targets = []
-
         train_stats = []
 
         for epoch in range(self.epochs):
+            total_loss = 0.0
+            total_samples = 0
+            total_correct = 0
+            all_outputs = []
+            all_targets = []
 
-            for inp, target in self.dataloader:
+            for step, (inp, target) in enumerate(self.train_loader, start=1):
                 inp = inp.cuda(non_blocking=True)
                 target = target.cuda(non_blocking=True)
                 batch_size = inp.size(0)
@@ -30,7 +50,6 @@ class Trainer():
                 if "vit" in self.arch:
                     intermediate_output = self.model.get_intermediate_layers(inp, 1)
                     output_features = torch.cat([x[:, 0] for x in intermediate_output], dim=-1)
-                    
                     avg_pooled = torch.mean(intermediate_output[-1][:, 1:], dim=1)
                     output_features = torch.cat((output_features, avg_pooled), dim=-1)
                 else:
@@ -41,9 +60,19 @@ class Trainer():
                 loss = nn.CrossEntropyLoss()(output, target)
 
                 # Backward pass and optimization
-                optimizer.zero_grad()
+                self.optimizer.zero_grad()
                 loss.backward()
-                optimizer.step()
+                self.optimizer.step()
+
+                # Batch-level logging
+                if step % self.log_interval == 0:
+                    self._log({
+                        'phase': 'train',
+                        'epoch': epoch + 1,
+                        'step': step,
+                        'batch_loss': float(loss.item()),
+                        'lr': self.optimizer.param_groups[0]['lr'],
+                    })
 
                 # Accumulate loss and samples
                 total_loss += loss.item() * self.batch_size
@@ -57,8 +86,8 @@ class Trainer():
                 all_outputs.append(output.detach().cpu())
                 all_targets.append(target.detach().cpu())
 
-            if scheduler is not None:
-                scheduler.step()
+            if self.scheduler is not None:
+                self.scheduler.step()
             
             # Compute average loss and accuracy
             avg_loss = total_loss / total_samples
@@ -69,36 +98,35 @@ class Trainer():
             all_targets = torch.cat(all_targets)
 
             # Compute F1-score
-            avg_f1 = utils.f1_score(all_outputs, all_targets, num_classes)
+            avg_f1 = utils.f1_score(all_outputs, all_targets, self.classifier.num_labels)
 
             # Log statistics
             train_stat = {
                 'epoch': epoch + 1,
                 'train_loss': avg_loss,
-                'lr': optimizer.param_groups[0]["lr"],
+                'lr': self.optimizer.param_groups[0]["lr"],
                 'train_acc1': avg_acc,
                 'train_f1': avg_f1
             }
-
+            self._log({'phase': 'train_epoch', **train_stat})
             train_stats.append(train_stat)
 
         return train_stats
 
-    def train_linear(self, num_classes, optimizer, scheduler):
+    def train_linear(self):
         self.model.eval()
         self.classifier.train()
         
-        total_loss = 0.0
-        total_samples = 0
-        total_correct = 0
-        all_outputs = []
-        all_targets = []
-
         train_stats = []
 
         for epoch in range(self.epochs):
+            total_loss = 0.0
+            total_samples = 0
+            total_correct = 0
+            all_outputs = []
+            all_targets = []
 
-            for inp, target in self.dataloader:
+            for step, (inp, target) in enumerate(self.train_loader, start=1):
                 inp = inp.cuda(non_blocking=True)
                 target = target.cuda(non_blocking=True)
                 batch_size = inp.size(0)
@@ -108,7 +136,6 @@ class Trainer():
                     if "vit" in self.arch:
                         intermediate_output = self.model.get_intermediate_layers(inp, 1)
                         output_features = torch.cat([x[:, 0] for x in intermediate_output], dim=-1)
-                        
                         avg_pooled = torch.mean(intermediate_output[-1][:, 1:], dim=1)
                         output_features = torch.cat((output_features, avg_pooled), dim=-1)
                     else:
@@ -119,9 +146,19 @@ class Trainer():
                 loss = nn.CrossEntropyLoss()(output, target)
 
                 # Backward pass and optimization
-                optimizer.zero_grad()
+                self.optimizer.zero_grad()
                 loss.backward()
-                optimizer.step()
+                self.optimizer.step()
+
+                # Batch-level logging
+                if step % self.log_interval == 0:
+                    self._log({
+                        'phase': 'train_linear',
+                        'epoch': epoch + 1,
+                        'step': step,
+                        'batch_loss': float(loss.item()),
+                        'lr': self.optimizer.param_groups[0]['lr'],
+                    })
 
                 # Accumulate loss and samples
                 total_loss += loss.item() * self.batch_size
@@ -135,8 +172,8 @@ class Trainer():
                 all_outputs.append(output.detach().cpu())
                 all_targets.append(target.detach().cpu())
 
-            if scheduler is not None:
-                scheduler.step()
+            if self.scheduler is not None:
+                self.scheduler.step()
             
             # Compute average loss and accuracy
             avg_loss = total_loss / total_samples
@@ -147,24 +184,24 @@ class Trainer():
             all_targets = torch.cat(all_targets)
 
             # Compute F1-score
-            avg_f1 = utils.f1_score(all_outputs, all_targets, num_classes)
+            avg_f1 = utils.f1_score(all_outputs, all_targets, self.classifier.num_labels)
 
             # Log statistics
             train_stat = {
                 'epoch': epoch + 1,
                 'train_loss': avg_loss,
-                'lr': optimizer.param_groups[0]["lr"],
+                'lr': self.optimizer.param_groups[0]["lr"],
                 'train_acc1': avg_acc,
                 'train_f1': avg_f1
             }
-
+            self._log({'phase': 'train_linear_epoch', **train_stat})
             train_stats.append(train_stat)
         
         return train_stats
 
 
     @torch.no_grad()
-    def validate(self, num_classes):
+    def validate(self, dataloader):
         self.model.eval()
         self.classifier.eval()
         total_loss = 0.0
@@ -174,7 +211,7 @@ class Trainer():
         all_targets = []
 
         with torch.no_grad():
-            for inp, target in self.dataloader:
+            for step, (inp, target) in enumerate(dataloader, start=1):
                 inp = inp.cuda(non_blocking=True)
                 target = target.cuda(non_blocking=True)
                 batch_size = inp.size(0)
@@ -183,7 +220,6 @@ class Trainer():
                 if "vit" in self.arch:
                     intermediate_output = self.model.get_intermediate_layers(inp, 1)
                     output_features = torch.cat([x[:, 0] for x in intermediate_output], dim=-1)
-                    
                     avg_pooled = torch.mean(intermediate_output[-1][:, 1:], dim=1)
                     output_features = torch.cat((output_features, avg_pooled), dim=-1)
                 else:
@@ -214,7 +250,7 @@ class Trainer():
         all_targets = torch.cat(all_targets)
 
         # Compute F1-score
-        avg_f1 = utils.f1_score(all_outputs, all_targets, num_classes)
+        avg_f1 = utils.f1_score(all_outputs, all_targets, self.classifier.num_labels)
 
         # Log statistics
         val_stat = {
@@ -222,4 +258,7 @@ class Trainer():
             'val_acc1': avg_acc,
             'val_f1': avg_f1
         }
+        self._log({'phase': 'validate', **val_stat})
         return val_stat
+    
+    def train_

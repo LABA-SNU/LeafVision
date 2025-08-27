@@ -20,7 +20,7 @@ class LinearClassifier(nn.Module):
         # linear layer
         return self.linear(x)
 
-def load_pretrained_weight(arch, ssl, map_location="cpu"):
+def init_pretrained_model(arch, ssl, num_labels=1000, map_location="cpu", device="cpu"):
     """
     Load a pretrained backbone from `models/LeafVision_{ssl}_{arch}.pth` and return it with weights.
 
@@ -28,7 +28,9 @@ def load_pretrained_weight(arch, ssl, map_location="cpu"):
         arch (str): Model name (e.g., 'resnet50', 'efficientnet_b0', 'vit_base'). Must exist in
             `torchvision.models.__dict__` or `vits.__dict__`.
         ssl (str): Pretraining tag used in the filename (e.g., 'DINO', 'BYOL', 'SimCLR', 'Supervised').
+        num_labels (int): Number of labels to classify.
         map_location (str | torch.device, optional): Passed to `torch.load` (e.g., 'cpu', 'cuda:0').
+        device (str|torch.device): device to map the model onto (default: 'cpu')
 
     Returns:
         torch.nn.Module: Backbone with classification head removed.
@@ -48,12 +50,14 @@ def load_pretrained_weight(arch, ssl, map_location="cpu"):
     # Rebuild model
     if "vit" in arch:
         model = vits.__dict__[arch](patch_size=16, num_classes=0)
+        embed_dim = model.embed_dim * (1 + int(True))
     elif "resnet" in arch:
         model = torchvision_models.__dict__[arch](weights=None)
+        embed_dim = model.fc.weight.shape[1]
         model.fc = nn.Identity()
     elif "efficientnet" in arch:
         model = torchvision_models.__dict__[arch](weights=None)
-        # EfficientNet v2 uses classifier as a Sequential
+        embed_dim = model.classifier[1].weight.shape[1]
         if hasattr(model, "classifier"):
             model.classifier = nn.Identity()
         else:
@@ -93,23 +97,10 @@ def load_pretrained_weight(arch, ssl, map_location="cpu"):
     else:
         print(f"[ok] Loaded cleanly: {weight_path.name}")
 
-    return model
-
-def init_linear_classifier(model, arch, num_labels=1000):
-    if "vit" in arch:
-        embed_dim = model.embed_dim * (1 + int(True))
-    elif "resnet" in arch:
-        embed_dim = model.fc.weight.shape[1]
-    elif "efficientnet" in arch:
-        embed_dim = model.classifier[1].weight.shape[1]
-    else:
-        raise ValueError(f"Unknown architecture: {arch}")
-    
     classifier = LinearClassifier(embed_dim, num_labels=num_labels)
-    classifier = classifier.to(model.device)
 
     with torch.no_grad():
-        if "resnet" in args.arch:
+        if "resnet" in arch:
             last_block = model.layer4[-1]
             if hasattr(last_block, 'bn3'):  
                 final_bn = last_block.bn3
@@ -119,12 +110,12 @@ def init_linear_classifier(model, arch, num_labels=1000):
             mean_val = final_bn.weight.data.mean()
             std_val = final_bn.weight.data.std()
 
-        elif "vit" in args.arch:
+        elif "vit" in arch:
             final_ln = model.norm
             mean_val = final_ln.weight.data.mean()
             std_val = final_ln.weight.data.std()
         else:
             mean_val = 0.0
             std_val = 0.01
-    
-    return classifier
+
+    return model.to(device), classifier.to(device)
