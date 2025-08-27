@@ -25,41 +25,41 @@ TBD.
   <tr>
     <td class="tg-nrix" rowspan="2">SimCLR</td>
     <td class="tg-nrix">ResNet-18</td>
-    <td class="tg-nrix">`./models/LeafVision_SimCLR_resnet18.pth`</td>
+    <td class="tg-nrix">./models/LeafVision_SimCLR_resnet18.pth</td>
   </tr>
   <tr>
     <td class="tg-nrix">ResNet-50</td>
-    <td class="tg-nrix">`./models/LeafVision_SimCLR_resnet50.pth`</td>
+    <td class="tg-nrix">./models/LeafVision_SimCLR_resnet50.pth</td>
   </tr>
   <tr>
     <td class="tg-nrix">BYOL</td>
     <td class="tg-nrix">ResNet-50</td>
-    <td class="tg-nrix">`./models/LeafVision_BYOL_resnet18.pth`</td>
+    <td class="tg-nrix">./models/LeafVision_BYOL_resnet18.pth</td>
   </tr>
   <tr>
     <td class="tg-nrix" rowspan="6">DINO</td>
     <td class="tg-nrix">ResNet-18</td>
-    <td class="tg-nrix">`./models/LeafVision_DINO_resnet18.pth`</td>
+    <td class="tg-nrix">./models/LeafVision_DINO_resnet18.pth</td>
   </tr>
   <tr>
     <td class="tg-nrix">ResNet-50</td>
-    <td class="tg-nrix">`./models/LeafVision_DINO_resnet50.pth`</td>
+    <td class="tg-nrix">./models/LeafVision_DINO_resnet50.pth</td>
   </tr>
   <tr>
     <td class="tg-nrix">EfficientNet-B0</td>
-    <td class="tg-nrix">`./models/LeafVision_DINO_efficientnet_b0.pth`</td>
+    <td class="tg-nrix">./models/LeafVision_DINO_efficientnet_b0.pth</td>
   </tr>
   <tr>
     <td class="tg-nrix">EfficientNet-B2</td>
-    <td class="tg-nrix">`./models/LeafVision_DINO_efficientnet_b2.pth`</td>
+    <td class="tg-nrix">./models/LeafVision_DINO_efficientnet_b2.pth</td>
   </tr>
   <tr>
     <td class="tg-nrix">ViT-S/16</td>
-    <td class="tg-nrix">`./models/LeafVision_DINO_vit_small.pth`</td>
+    <td class="tg-nrix">./models/LeafVision_DINO_vit_small.pth</td>
   </tr>
   <tr>
     <td class="tg-nrix">ViT-B/16</td>
-    <td class="tg-nrix">`./models/LeafVision_DINO_vit_base.pth`</td>
+    <td class="tg-nrix">./models/LeafVision_DINO_vit_base.pth</td>
   </tr>
 </tbody>
 </table>
