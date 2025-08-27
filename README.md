@@ -1,5 +1,5 @@
 # LeafVision
-By Yunseok Han, Woosang Jeon, Sanghyeok Choi, Kyuseok Yang, Taehyeong Kim*
+By Yunseok Han, Woosang Jeon, Taehyeong Kim*
 
 ![LeafVision Grapical Abstract](imgs/github_figure.png)
 
