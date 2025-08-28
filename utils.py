@@ -119,3 +119,36 @@ def init_pretrained_model(arch, ssl, num_labels=1000, map_location="cpu", device
             std_val = 0.01
 
     return model.to(device), classifier.to(device)
+
+def f1_score(outputs, targets, num_classes):
+    """Computes the macro F1-score given outputs and targets."""
+    with torch.no_grad():
+        # Convert outputs to predicted class labels
+        _, preds = torch.max(outputs, dim=1)
+        preds = preds.cpu()
+        targets = targets.cpu()
+
+        # Initialize true positives, false positives, false negatives
+        TP = torch.zeros(num_classes)
+        FP = torch.zeros(num_classes)
+        FN = torch.zeros(num_classes)
+
+        for cls in range(num_classes):
+            # True positives: correctly predicted samples of class `cls`
+            TP[cls] = ((preds == cls) & (targets == cls)).sum().item()
+            # False positives: samples predicted as `cls` but are not of class `cls`
+            FP[cls] = ((preds == cls) & (targets != cls)).sum().item()
+            # False negatives: samples of class `cls` but predicted as another class
+            FN[cls] = ((preds != cls) & (targets == cls)).sum().item()
+
+        # Compute per-class precision and recall
+        precision = TP / (TP + FP + 1e-8)  # Add epsilon to avoid division by zero
+        recall = TP / (TP + FN + 1e-8)
+
+        # Compute per-class F1-score
+        F1 = 2 * (precision * recall) / (precision + recall + 1e-8)
+        F1[torch.isnan(F1)] = 0  # Handle NaNs for classes with no predictions or ground truths
+
+        # Compute macro F1-score
+        macro_f1 = F1.mean().item()
+    return macro_f1
