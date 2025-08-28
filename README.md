@@ -3,8 +3,6 @@ By Yunseok Han, Woosang Jeon, Taehyeong Kim*
 
 ![LeafVision Graphical Abstract](imgs/github_figure.png)
 
-> Code will be available soon.
-
 ## Introduction
 Plant disease diagnosis in real-world settings often suffers from scarce labeled data and domain gaps when using general-purpose ImageNet-pretrained backbones. **LeafVision** is a domain-specific, self-supervised (SSL) agricultural vision foundation model pretrained on **540,013 leaf images**. We evaluate **SimCLR, BYOL, DINO** across **ResNets, EfficientNets, and ViTs**, showing consistent gains over ImageNet baselines—especially in data-scarce regimes (e.g., **5 images/class**).
 
