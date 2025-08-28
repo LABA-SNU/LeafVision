@@ -100,5 +100,6 @@ If you find this code useful in your research, please consider citing:
 @misc{han2025leafvision,
   title={LeafVision: Self-Supervised Agricultural Vision Foundation Models for Plant Disease Classification},
   author={Yunseok Han and Woosang Jeon and Taehyeong Kim},
+  url={https://github.com/LABA-SNU/LeafVision},
   year={2025},
 }
