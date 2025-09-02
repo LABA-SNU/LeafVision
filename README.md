@@ -33,8 +33,8 @@ If you are based in Korea, you may access additional **AIHub plant disease datas
 
 | Dataset | Description | Link |
 |---------|-------------|------|
-| Plant Disease Inducing Integrated Data (AIHub)⁵ | 113,054 images, 6 crops with healthy, disease, disorder, protective-agent labels. | [Link](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=525) |
-| Strawberry Disease Detection (AIHub)⁶ | 191,149 strawberry images for real-time diagnosis. | [Link](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=71451) |
+| Plant Disease Inducing Integrated Data (AIHub) | 113,054 images, 6 crops with healthy, disease, disorder, protective-agent labels. | [Link](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=525) |
+| Strawberry Disease Detection (AIHub) | 191,149 strawberry images for real-time diagnosis. | [Link](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=71451) |
 
 ## Results
 
