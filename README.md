@@ -11,6 +11,27 @@ Key takeaways:
 - Gains are **architecture-agnostic** (CNNs and ViTs)
 - Strong performance persists **even with abundant labels**
 
+## Datasets for self-supervised pretraining
+
+We integrated 13 publicly available plant disease datasets spanning diverse crops, diseases, and imaging conditions. These datasets provide 540K leaf images that form the basis of LeafVision’s self-supervised pretraining, ensuring broad coverage and robustness across species and real-world scenarios.
+
+| Dataset | Description | Link |
+|---------|-------------|------|
+| PlantVillage (G. and J. 2019) | 61,486 images, 38 groups by species and disease status. | [Link](https://data.mendeley.com/datasets/tywbtsjrjv/1) |
+| PlantDoc (Singh et al. 2020) | 2,598 images, 13 species, up to 17 disease classes. | [Link](https://github.com/pratikkayal/PlantDoc-Dataset) |
+| Plant Pathology 2020 (Thapa et al. 2020) | 3,642 apple leaf images, expert-annotated for ML detection. | [Link](https://www.kaggle.com/c/plant-pathology-2020-fgvc7/data) |
+| Cassava (Tusubira et al. 2022) | 21,367 cassava leaf images, 4 diseases + healthy class. | [Link](https://www.kaggle.com/competitions/cassava-leaf-disease-classification/data) |
+| Citrus Fruits & Leaves (Sharif et al. 2018) | 759 citrus fruit/leaf images, healthy and diseased. | [Link](https://data.mendeley.com/datasets/3f83gxmv57/2) |
+| Rice Leaf (Prajapati et al. 2017) | 120 images, Bacterial Leaf Blight, Brown Spot, Leaf Smut. | [Link](https://www.kaggle.com/datasets/vbookshelf/rice-leaf-diseases) |
+| DeepWeeds (Olsen et al. 2019) | 17,509 images, 8 Australian weed species in situ. | [Link](https://www.kaggle.com/datasets/imsparsh/deepweeds) |
+| Plant Disease Recognition (Kaggle)¹ | 1,530 images, Healthy, Powdery, Rust; with splits. | [Link](https://www.kaggle.com/datasets/rashikrahmanpritom/plant-disease-recognition-dataset) |
+| PlantifyDr (Kaggle)² | 124,636 images, 10 plant types, 37 diseases. | [Link](https://www.kaggle.com/datasets/lavaman151/plantifydr-dataset) |
+| Cucumber Plant Disease (Kaggle)³ | 691 images, labeled ill/good; train/test splits. | [Link](https://www.kaggle.com/datasets/kareem3egm/cucumber-plant-diseases-dataset) |
+| Plant Disease Classification (Kaggle)⁴ | 1,472 images, Healthy, Powdery, Rust; identical splits. | [Link](https://www.kaggle.com/code/vad13irt/plant-disease-classification/input) |
+| Plant Disease Inducing Integrated Data (AIHub)⁵ | 113,054 images, 6 crops with healthy, disease, disorder, protective-agent labels. | [Link](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=525) |
+| Strawberry Disease Detection (AIHub)⁶ | 191,149 strawberry images for real-time diagnosis. | [Link](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=71451) |
+
+
 ## Results
 
 > **Evaluation protocol (summary)**  
@@ -77,7 +98,7 @@ Gains persist even with plentiful labels.
 | ImageNet | 97.86 ± 0.19 | 97.54 ± 0.25 | 98.13 |
 | **LeafVision** | **98.35 ± 0.15** | **98.03 ± 0.17** | **99.58** |
 
-## Example Code
+## Example code
 See `example.ipynb` to train a linear classifier on PlantVillage 05images using our **pretrained ResNet-50**.
 
 ## Models
