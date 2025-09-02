@@ -24,13 +24,17 @@ We integrated 13 publicly available plant disease datasets spanning diverse crop
 | Citrus Fruits & Leaves (Sharif et al. 2018) | 759 citrus fruit/leaf images, healthy and diseased. | [Link](https://data.mendeley.com/datasets/3f83gxmv57/2) |
 | Rice Leaf (Prajapati et al. 2017) | 120 images, Bacterial Leaf Blight, Brown Spot, Leaf Smut. | [Link](https://www.kaggle.com/datasets/vbookshelf/rice-leaf-diseases) |
 | DeepWeeds (Olsen et al. 2019) | 17,509 images, 8 Australian weed species in situ. | [Link](https://www.kaggle.com/datasets/imsparsh/deepweeds) |
-| Plant Disease Recognition (Kaggle)¹ | 1,530 images, Healthy, Powdery, Rust; with splits. | [Link](https://www.kaggle.com/datasets/rashikrahmanpritom/plant-disease-recognition-dataset) |
-| PlantifyDr (Kaggle)² | 124,636 images, 10 plant types, 37 diseases. | [Link](https://www.kaggle.com/datasets/lavaman151/plantifydr-dataset) |
-| Cucumber Plant Disease (Kaggle)³ | 691 images, labeled ill/good; train/test splits. | [Link](https://www.kaggle.com/datasets/kareem3egm/cucumber-plant-diseases-dataset) |
-| Plant Disease Classification (Kaggle)⁴ | 1,472 images, Healthy, Powdery, Rust; identical splits. | [Link](https://www.kaggle.com/code/vad13irt/plant-disease-classification/input) |
+| Plant Disease Recognition (Kaggle) | 1,530 images, Healthy, Powdery, Rust; with splits. | [Link](https://www.kaggle.com/datasets/rashikrahmanpritom/plant-disease-recognition-dataset) |
+| PlantifyDr (Kaggle) | 124,636 images, 10 plant types, 37 diseases. | [Link](https://www.kaggle.com/datasets/lavaman151/plantifydr-dataset) |
+| Cucumber Plant Disease (Kaggle) | 691 images, labeled ill/good; train/test splits. | [Link](https://www.kaggle.com/datasets/kareem3egm/cucumber-plant-diseases-dataset) |
+| Plant Disease Classification (Kaggle) | 1,472 images, Healthy, Powdery, Rust; identical splits. | [Link](https://www.kaggle.com/code/vad13irt/plant-disease-classification/input) |
+
+If you are based in Korea, you may access additional **AIHub plant disease datasets** that were also used in LeafVision’s pretraining:
+
+| Dataset | Description | Link |
+|---------|-------------|------|
 | Plant Disease Inducing Integrated Data (AIHub)⁵ | 113,054 images, 6 crops with healthy, disease, disorder, protective-agent labels. | [Link](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=525) |
 | Strawberry Disease Detection (AIHub)⁶ | 191,149 strawberry images for real-time diagnosis. | [Link](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=71451) |
-
 
 ## Results
 
