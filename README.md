@@ -119,12 +119,14 @@ See `example.ipynb` to train a linear classifier on PlantVillage 05images using 
 | DINO | ViT-B/16 | `./models/LeafVision_DINO_vit_base.pth` |
 
 ## Citing
-If you find this code useful in your research, please consider citing:
+If you find this work useful in your research, please consider citing:
 
 ```bibtex
-@misc{han2025leafvision,
-  title={LeafVision: Self-Supervised Agricultural Vision Foundation Models for Plant Disease Classification},
-  author={Yunseok Han and Woosang Jeon and Taehyeong Kim},
-  url={https://github.com/LABA-SNU/LeafVision},
-  year={2025},
+@article{han2025leafvision,
+  author    = {Han, Yunseok and Jeon, Woosang and Kim, Taehyeong},
+  title     = {LeafVision: Self-Supervised Agricultural Vision Foundation Models for Plant Disease Classification},
+  journal   = {SSRN Electronic Journal Preprint},
+  year      = {2025},
+  url       = {http://dx.doi.org/10.2139/ssrn.5848488},
+  keywords  = {plant disease classification, self-supervised learning, agricultural vision},
 }
