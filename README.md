@@ -17,13 +17,13 @@ We integrated 13 publicly available plant disease datasets spanning diverse crop
 
 | Dataset | Description | Link |
 |---------|-------------|------|
-| PlantVillage (G. and J. 2019) | 61,486 images, 38 groups by species and disease status. | [Link](https://data.mendeley.com/datasets/tywbtsjrjv/1) |
-| PlantDoc (Singh et al. 2020) | 2,598 images, 13 species, up to 17 disease classes. | [Link](https://github.com/pratikkayal/PlantDoc-Dataset) |
-| Plant Pathology 2020 (Thapa et al. 2020) | 3,642 apple leaf images, expert-annotated for ML detection. | [Link](https://www.kaggle.com/c/plant-pathology-2020-fgvc7/data) |
-| Cassava (Tusubira et al. 2022) | 21,367 cassava leaf images, 4 diseases + healthy class. | [Link](https://www.kaggle.com/competitions/cassava-leaf-disease-classification/data) |
-| Citrus Fruits & Leaves (Sharif et al. 2018) | 759 citrus fruit/leaf images, healthy and diseased. | [Link](https://data.mendeley.com/datasets/3f83gxmv57/2) |
-| Rice Leaf (Prajapati et al. 2017) | 120 images, Bacterial Leaf Blight, Brown Spot, Leaf Smut. | [Link](https://www.kaggle.com/datasets/vbookshelf/rice-leaf-diseases) |
-| DeepWeeds (Olsen et al. 2019) | 17,509 images, 8 Australian weed species in situ. | [Link](https://www.kaggle.com/datasets/imsparsh/deepweeds) |
+| PlantVillage (with augmented samples) (Geetharamani and Arun Pandian, 2019) | 61,486 images, 38 groups by species and disease status. | [Link](https://data.mendeley.com/datasets/tywbtsjrjv/1) |
+| PlantDoc (Singh et al., 2020) | 2,598 images, 13 species, up to 17 disease classes. | [Link](https://github.com/pratikkayal/PlantDoc-Dataset) |
+| Plant Pathology 2020 (Thapa et al., 2020) | 3,642 apple leaf images, expert-annotated for ML detection. | [Link](https://www.kaggle.com/c/plant-pathology-2020-fgvc7/data) |
+| Cassava (Tusubira et al., 2022) | 21,367 cassava leaf images, 4 diseases + healthy class. | [Link](https://www.kaggle.com/competitions/cassava-leaf-disease-classification/data) |
+| Citrus Fruits & Leaves (Sharif et al., 2018) | 759 citrus fruit/leaf images, healthy and diseased. | [Link](https://data.mendeley.com/datasets/3f83gxmv57/2) |
+| Rice Leaf (Prajapati et al., 2017) | 120 images, Bacterial Leaf Blight, Brown Spot, Leaf Smut. | [Link](https://www.kaggle.com/datasets/vbookshelf/rice-leaf-diseases) |
+| DeepWeeds (Olsen et al., 2019) | 17,509 images, 8 Australian weed species in situ. | [Link](https://www.kaggle.com/datasets/imsparsh/deepweeds) |
 | Plant Disease Recognition (Kaggle) | 1,530 images, Healthy, Powdery, Rust; with splits. | [Link](https://www.kaggle.com/datasets/rashikrahmanpritom/plant-disease-recognition-dataset) |
 | PlantifyDr (Kaggle) | 124,636 images, 10 plant types, 37 diseases. | [Link](https://www.kaggle.com/datasets/lavaman151/plantifydr-dataset) |
 | Cucumber Plant Disease (Kaggle) | 691 images, labeled ill/good; train/test splits. | [Link](https://www.kaggle.com/datasets/kareem3egm/cucumber-plant-diseases-dataset) |
@@ -122,11 +122,16 @@ See `example.ipynb` to train a linear classifier on PlantVillage 05images using 
 If you find this work useful in your research, please consider citing:
 
 ```bibtex
-@article{han2025leafvision,
-  author    = {Han, Yunseok and Jeon, Woosang and Kim, Taehyeong},
-  title     = {LeafVision: Self-Supervised Agricultural Vision Foundation Models for Plant Disease Classification},
-  journal   = {SSRN Electronic Journal Preprint},
-  year      = {2025},
-  url       = {http://dx.doi.org/10.2139/ssrn.5848488},
-  keywords  = {plant disease classification, self-supervised learning, agricultural vision},
+@article{HAN2026114660,
+title = {LeafVision: Self-supervised agricultural vision foundation models for plant disease classification},
+journal = {Engineering Applications of Artificial Intelligence},
+volume = {176},
+pages = {114660},
+year = {2026},
+issn = {0952-1976},
+doi = {https://doi.org/10.1016/j.engappai.2026.114660},
+url = {https://www.sciencedirect.com/science/article/pii/S0952197626009425},
+author = {Yunseok Han and Woosang Jeon and Taehyeong Kim and Soo Chung},
+keywords = {Plant disease classification, Self-supervised learning, Domain-specific pretraining, Data scarcity, Agricultural computer vision},
+abstract = {Plant disease diagnosis faces significant challenges due to data scarcity and the limitations of general-purpose pretrained models for agricultural applications. While ImageNet-pretrained models are widely used for transfer learning, they often fail to capture the subtle visual characteristics essential for accurate plant disease classification. We introduce LeafVision, a self-supervised agricultural vision foundation model pretrained on 540,013 plant leaf images from diverse publicly available sources. We evaluate three prominent self-supervised learning methods – Simple framework for Contrastive Learning of Visual Representations (SimCLR), Bootstrap Your Own Latent (BYOL), and Self-Distillation with No Labels (DINO) – across multiple backbone architectures, including Residual Networks (ResNets), EfficientNets, and Vision Transformers, under data-scarce conditions. Our results demonstrate that DINO-pretrained LeafVision models consistently outperform ImageNet-pretrained counterparts across all tested architectures and datasets, with particularly substantial improvements in extremely data-scarce scenarios. Qualitative analysis through feature visualization and saliency mapping reveals that LeafVision learns more discriminative representations, forming well-separated feature clusters and focusing on physiologically meaningful leaf regions. These findings validate the effectiveness of domain-specific pretraining for agricultural computer vision and demonstrate LeafVision’s potential to advance precision agriculture technologies in settings with limited labeled data.}
 }
